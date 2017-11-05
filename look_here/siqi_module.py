@@ -4,7 +4,9 @@ from chatterbot.conversation import Statement, Response
 
 class SubtitleTrainer(Trainer):
 
-    def train(self, N = None, *corpus_paths):
+    def train(self, NN = 0, N = None, *corpus_paths):  
+        #corpus_paths is a list of paths of corpus or one corpus path.
+        #read each corpus from line NN to N. By default the whole file is read.
 
         print('N=',N)
         for corpus in corpus_paths:
@@ -13,8 +15,8 @@ class SubtitleTrainer(Trainer):
             file = open(corpus)
             l_line = []
             if N:
-                for i in range(N):
-                    line = file.readline().strip()   #.replace(' ',',')
+                for i in range(NN, N):
+                    line = file.readline().strip() 
                     l_line.append(line)
             else:
                 l_line = file.readlines()
@@ -26,7 +28,7 @@ class SubtitleTrainer(Trainer):
             previous_statement_text = None
 
             for conversation_count, text in enumerate(l_line):
-                print_progress_bar("Subtitle Trainer", conversation_count + 1, N)
+                print_progress_bar("Subtitle Trainer", conversation_count + 1, N-NN)
 
                 statement = self.get_or_create(text)
 

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from chatterbot import ChatBot
 import datetime
-#from siqi_module import SubtitleTrainer
             
-# Create a new chat bot named Charlie
+# Create a new chat bot and configure it
 chatbot = ChatBot(
     'Siqiqiii',
     storage_adapter='chatterbot.storage.SQLStorageAdapter',
@@ -25,18 +24,20 @@ chatbot = ChatBot(
     ],
     database='./database.sqlite3',
     trainer='siqi_module.SubtitleTrainer'
-    #trainer='chatterbot.trainers.ListTrainer'
 )
 
-chatbot.train(3000,'/Users/wangsiqi/Downloads/subtitle.corpus')
-chatbot.trainer.export_for_training('./database.0.30.yml')
-# Get a response to the input text 'How are you?'
+#start training using subtitles in file. The file is based on Simplified Chinese.
+chatbot.train(30000,30300,'/Users/wangsiqi/Downloads/subtitle.corpus')
+
+#export the result
+chatbot.trainer.export_for_training('./database.yml')
+
+#talk with the chat bot
 print('This chat bot is based on Simplified Chinese.')
 while True:
     try:
-        print("Me: ",end='')
+        print("Your term: ",end='')
         bot_input = chatbot.get_response(None)
-        print('Agent:',end='')
         
     except(KeyboardInterrupt, EOFError, SystemExit):
         break
